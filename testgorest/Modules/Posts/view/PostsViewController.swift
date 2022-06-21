@@ -61,12 +61,16 @@ class PostsViewController: UIViewController {
     func setupMenu() {
         let alamofireItemMenu = UIAction(title: "Alamofire", image: UIImage(systemName: "arrow.clockwise")) { (action) in
             self.postsResponse = nil
-            self.postsTableView.reloadData()
+            DispatchQueue.main.async {
+                self.postsTableView.reloadData()
+            }
             self.reloadPosts(typeService: .alamofire)
         }
         let urlSessionItemMenu = UIAction(title: "URLSession", image: UIImage(systemName: "arrow.clockwise")) { (action) in
             self.postsResponse = nil
-            self.postsTableView.reloadData()
+            DispatchQueue.main.async {
+                self.postsTableView.reloadData()
+            }
             self.reloadPosts(typeService: .urlsession)
         }
         let menu = UIMenu(title: "Tipo de servicio", children: [alamofireItemMenu, urlSessionItemMenu])
@@ -79,19 +83,26 @@ class PostsViewController: UIViewController {
 extension PostsViewController: PresenterToViewPostProtocol {
     func onPostSearchResults(posts: [Post]) {
         postsFiltered = posts
-        postsTableView.reloadData()
+        DispatchQueue.main.async {[weak self]in
+            self?.postsTableView.reloadData()
+        }
     }
     
     func onPostFetchSucces(postResponse: PostResponse) {
         isLoading = false
         guard let _ = self.postsResponse else {
             self.postsResponse = postResponse
-            postsTableView.reloadData()
+            DispatchQueue.main.async {[weak self]in
+                self?.postsTableView.reloadData()
+            }
             return
         }
         self.postsResponse!.data += postResponse.data
         self.postsResponse!.meta = postResponse.meta
-        postsTableView.reloadData()
+        DispatchQueue.main.async {[weak self]in
+            self?.postsTableView.reloadData()
+         
+        }
     }
     
     func onPostFetchError(message: String) {

@@ -13,21 +13,20 @@ class URLSessionPostsService: PostsServiceProtocol {
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
-                DispatchQueue.main.async {
+                
                     completion(.failure(error!))
-                }
+                
                 return
             }
             do {
                 let decoder = JSONDecoder()
                 let data = try decoder.decode(PostResponse.self, from: data)
-                DispatchQueue.main.async {
+                
                     completion(.success(data))
-                }
             } catch let error {
-                DispatchQueue.main.async {
+                
                     completion(.failure(error))
-                }
+                
             }
         }.resume()
     }

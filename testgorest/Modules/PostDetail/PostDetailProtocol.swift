@@ -8,28 +8,28 @@
 import Foundation
 import UIKit
 
-protocol ViewToPresentPostDetailProtocol {
+protocol ViewToPresentPostDetailProtocol: AnyObject {
     var view: PresenterToViewPostDetailProtocol? { get set }
     var interactor: PresentToInteractorDetailPostsProtocol? { get set }
     var router: PresenterToRouterDetailPostsProtocol? { get set }
 }
 
 // MARK: - ViewOutput (Present -> View)
-protocol PresenterToViewPostDetailProtocol {
+protocol PresenterToViewPostDetailProtocol: AnyObject {
 }
 
 // MARK: - Interactor Input (Present -> Interactor)
-protocol PresentToInteractorDetailPostsProtocol {
+protocol PresentToInteractorDetailPostsProtocol: AnyObject {
     var presenter: InteractorToPresentDetailPostsProtocol? { get set }
     var post: Post? { get set }
 }
 
 // MARK: - Interactor Output (Interactor -> Present)
-protocol InteractorToPresentDetailPostsProtocol {
+protocol InteractorToPresentDetailPostsProtocol: AnyObject {
 }
 
 // MARK: - Router Input (Presenter -> Router)
-protocol PresenterToRouterDetailPostsProtocol {
+protocol PresenterToRouterDetailPostsProtocol: AnyObject {
     static func createModule(post: Post) -> PostDetailViewController
 }
 

@@ -26,6 +26,9 @@ class PostDetailViewController: UIViewController {
     @IBAction func backAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
+    deinit {
+        print("DESTRUCTROR")
+    }
 }
 
 extension PostDetailViewController: PresenterToViewPostDetailProtocol {

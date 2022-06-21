@@ -8,10 +8,8 @@
 import Foundation
 
 class PostDetailPresenter: ViewToPresentPostDetailProtocol {
-    var view: PresenterToViewPostDetailProtocol?
-    
+    weak var view: PresenterToViewPostDetailProtocol?
     var interactor: PresentToInteractorDetailPostsProtocol?
-    
     var router: PresenterToRouterDetailPostsProtocol?
     
     
