@@ -1,15 +1,15 @@
 //
-//  postCell.swift
+//  PostViewCell.swift
 //  testgorest
 //
-//  Created by Jonathan Macias on 17/6/22.
+//  Created by Jonathan Macias on 22/6/22.
 //
 
 import UIKit
 
-class PostCell: UITableViewCell {
+class PostViewCell: UITableViewCell {
 
-    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var titlePost: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +20,5 @@ class PostCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

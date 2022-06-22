@@ -36,8 +36,8 @@ class PostsViewController: UIViewController {
         searchPosts.delegate = self
         postsTableView.rowHeight = UITableView.automaticDimension
         postsTableView.estimatedRowHeight = 200
-        let tableViewLoadingCellNib = UINib(nibName: "LoadingCell", bundle: nil)
-        postsTableView.register(tableViewLoadingCellNib, forCellReuseIdentifier: "loadingCell")
+        let tableViewCellNib = UINib(nibName: "PostViewCell", bundle: nil)
+        postsTableView.register(tableViewCellNib, forCellReuseIdentifier: "postCell")
         setupMenu()
     }
     
@@ -51,6 +51,7 @@ class PostsViewController: UIViewController {
     // E INSTNACIAR EL POSTRESPONSE CON LOS PRIMEROS POSTS
     func reloadPosts(typeService: TypeService) {
         isLoading = true
+        postsTableView.tableFooterView = createActivityIndicatorFooter()
         guard let postResponse = postsResponse else {
             postsPresenter?.refresh(page: 1, typeService: typeService)
             return
@@ -93,13 +94,15 @@ extension PostsViewController: PresenterToViewPostProtocol {
         guard let _ = self.postsResponse else {
             self.postsResponse = postResponse
             DispatchQueue.main.async {[weak self]in
+                self?.postsTableView.tableFooterView = nil
                 self?.postsTableView.reloadData()
             }
             return
         }
-        self.postsResponse!.data += postResponse.data
-        self.postsResponse!.meta = postResponse.meta
+        self.postsResponse?.data += postResponse.data
+        self.postsResponse?.meta = postResponse.meta
         DispatchQueue.main.async {[weak self]in
+            self?.postsTableView.tableFooterView = nil
             self?.postsTableView.reloadData()
          
         }
@@ -114,29 +117,15 @@ extension PostsViewController: PresenterToViewPostProtocol {
 
 extension PostsViewController: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     // MARK: TABLE
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return isFiltering ? postsFiltered.count : postsResponse?.data.count ?? 0
-        } else {
-            return 1
-        }
+        return isFiltering ? postsFiltered.count : postsResponse?.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostCell
-            cell.title.text = postsResponse!.data[indexPath.row].title
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "loadingCell", for: indexPath) as! LoadingCell
-            cell.isHidden = isLoading ? false : true
-            cell.activityIndicator.startAnimating()
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostViewCell
+        cell.titlePost.text = postsResponse!.data[indexPath.row].title
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -144,12 +133,12 @@ extension PostsViewController: UITableViewDelegate, UITableViewDataSource, UISea
     }
     
     // IDENTIFICAR CUANDO LA TABLA LLEGÓ AL FINAL PARA SOLICITAR MÁS POSTS
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let postsResponse = self.postsResponse else {
             return
         }
-        if indexPath.row == postsResponse.data.count - 1, !isLoading, postsResponse.meta.pagination.page != postsResponse.meta.pagination.pages {
-            print("PAGE \(postsResponse.meta.pagination.page)")
+        let position = scrollView.contentOffset.y
+        if position > (postsTableView.contentSize.height-50 - scrollView.frame.size.height), !isLoading, postsResponse.meta.pagination.page != postsResponse.meta.pagination.pages {
             reloadPosts(typeService: typeServiceSelected)
         }
     }
@@ -160,5 +149,14 @@ extension PostsViewController: UITableViewDelegate, UITableViewDataSource, UISea
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchPosts.resignFirstResponder()
+    }
+    
+    func createActivityIndicatorFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = footerView.center
+        footerView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        return footerView
     }
 }

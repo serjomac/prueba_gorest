@@ -19,33 +19,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="aDQ-eu-FFa">
                                 <rect key="frame" x="0.0" y="149" width="414" height="713"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCell" id="xTW-uH-jbd" customClass="PostCell" customModule="testgorest" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="21"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xTW-uH-jbd" id="3Vh-kX-Haj">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="21"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXN-i0-YTh">
-                                                    <rect key="frame" x="10" y="0.0" width="404" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="DXN-i0-YTh" secondAttribute="bottom" id="Ai4-Gz-pUF"/>
-                                                <constraint firstItem="DXN-i0-YTh" firstAttribute="leading" secondItem="3Vh-kX-Haj" secondAttribute="leading" constant="10" id="CTq-pW-v23"/>
-                                                <constraint firstAttribute="trailing" secondItem="DXN-i0-YTh" secondAttribute="trailing" id="TlI-qd-fBJ"/>
-                                                <constraint firstItem="DXN-i0-YTh" firstAttribute="top" secondItem="3Vh-kX-Haj" secondAttribute="top" id="ori-3X-Ihu"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="title" destination="DXN-i0-YTh" id="KIW-8h-sUT"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <sections/>
                             </tableView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="6sR-HQ-Ipd">
